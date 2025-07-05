@@ -1,0 +1,21 @@
+{
+    "experiment_name": "offline_retrieval",
+    "task_config_paths": [
+        "/gscratch/xlab/micdun/private-retrieval-lm/tasks/trivia_qa.json"
+    ],
+    "gen_config": {
+        "model_name": "meta-llama/Meta-Llama-3.1-8B"
+    },
+    "retrieval_config": {
+        "k": 3,
+        "offline_retrieval": {
+            "retrieval_results_path": "s3://ai2-llm/pretraining-data/sources/ds-olmo-data/oracle_retrieval/mmlu/out/full_subsampled_1_1000_dedup_merged_simple_qa_queries_top1000.jsonl",
+            "matching_key": "query", 
+            "ctx_key": "ctxs",
+            "retrieval_text_key": "retrieval text",
+            "max_chunk_len": 5000
+    	},
+        "augment_method": "simple"
+    },
+    "seed": 2024
+}

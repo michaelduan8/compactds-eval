@@ -1,0 +1,27 @@
+{
+    "experiment_name": "dense_retrieval_contriever_wiki_dpr",
+    "task_config_paths": [
+        "/gscratch/xlab/micdun/private-retrieval-lm/tasks/trivia_qa.json"
+    ],
+    "gen_config": {
+        "model_name": "meta-llama/Meta-Llama-3.1-8B"
+    },
+    "retrieval_config": {
+        "k": 3,
+        "online_retrieval": {
+            "retrieval_type": "dense",
+            "corpus_config": {
+                "corpus_name": "wiki_dpr",
+                "data_paths": [
+                    "data/psgs_w100.tsv.gz"
+                ],
+                "prepend_title": true
+            },
+            "embed_config": {
+                "embed_model": "facebook/contriever-msmarco"
+            }
+        },
+        "augment_method": "simple"
+    }, 
+    "seed": 2024
+}

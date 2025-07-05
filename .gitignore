@@ -1,0 +1,15 @@
+cache
+output
+data
+*/data
+**/__pycache__
+**/tmp_data
+**/index
+**/embeds
+**out**
+!**out**.py
+**debug
+**log
+*/*/*/__pycache__
+*/*/*/*/__pycache__
+.pyc

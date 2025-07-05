@@ -1,0 +1,10 @@
+{
+    "experiment_name": "lm_only_vllm_large",
+    "task_config_paths": [
+        "/gscratch/xlab/micdun/private-retrieval-lm/tasks/trivia_qa.json"
+    ],
+    "gen_config": {
+        "model_name": "meta-llama/Llama-2-7b-hf"
+    },
+    "seed": 2024
+}

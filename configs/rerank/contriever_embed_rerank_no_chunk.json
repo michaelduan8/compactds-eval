@@ -1,0 +1,8 @@
+{
+    "retrieval_query_key": "query",
+    "ctx_key": "ctxs",
+    "embedder_model": "facebook/contriever-msmarco",
+    "batch_size": 1024,
+    "new_score_key": "contriever score",
+    "mode": "contriever"
+}

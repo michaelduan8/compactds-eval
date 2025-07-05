@@ -1,0 +1,11 @@
+{
+    "retrieval_query_key": "query",
+    "ctx_key": "ctxs",
+    "top_k_rerank": 100,
+    "query_key": "query",
+    "rubric_file": "src/rerank/rubrics/rubric_v0.11.txt", 
+    "reranker_model": "meta-llama/Llama-3.3-70B-Instruct",
+    "intermediate_output_dir": "temp_intermediate_outputs/rubric_annotate_k=100/",
+    "answer_options_key": "choices",
+    "answer_index_key": "answer"
+}

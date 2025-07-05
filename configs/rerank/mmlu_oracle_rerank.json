@@ -1,0 +1,14 @@
+{
+    "retrieval_query_key": "query",
+    "ctx_key": "ctxs",
+    "top_k_rerank": 100,
+    "eval_prompt_key": "query_with_fewshot",
+    "reranker_model": "meta-llama/Meta-Llama-3.1-8B",
+    "mode": "mc",
+    "mode_args": {
+        "answer_choices": ["A", "B", "C", "D"]
+    },
+    "intermediate_output_dir": "temp_intermediate_outputs/oracle_rerank_k=100/",
+    "answer_options_key": "choices",
+    "answer_index_key": "answer"
+}

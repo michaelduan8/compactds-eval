@@ -1,0 +1,7 @@
+{
+    "retrieval_query_key": "query",
+    "ctx_key": "ctxs",
+    "embedder_model": "facebook/contriever",
+    "chunk_size": 512,
+    "batch_size": 1024
+}

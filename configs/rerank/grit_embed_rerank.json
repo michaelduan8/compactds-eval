@@ -1,0 +1,9 @@
+{
+    "retrieval_query_key": "query",
+    "ctx_key": "ctxs",
+    "embedder_model": "GritLM/GritLM-7B",
+    "chunk_size": 512,
+    "batch_size": 1024,
+    "new_score_key": "grit score",
+    "mode": "grit"
+}

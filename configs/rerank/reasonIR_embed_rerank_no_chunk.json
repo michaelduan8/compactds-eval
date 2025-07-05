@@ -1,0 +1,7 @@
+{
+    "retrieval_query_key": "query",
+    "ctx_key": "ctxs",
+    "embedder_model": "reasonir/ReasonIR-8B",
+    "batch_size": 8,
+    "mode": "ReasonIR"
+}

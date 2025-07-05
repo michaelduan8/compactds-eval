@@ -1,0 +1,8 @@
+{
+    "retrieval_id_key": "id",
+    "ctx_key": "ctxs",
+    "task_name": "retrieval_v3",
+    "top_k_rerank": 100,
+    "reranker_model": "meta-llama/Meta-Llama-3.1-8B",
+    "intermediate_output_dir": "temp_intermediate_outputs/oracle_rerank_k=100/"
+}

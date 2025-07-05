@@ -1,0 +1,18 @@
+# Context
+{retrieval_text}
+
+# Question and Answer:
+{query}{answer}
+
+# Instruction
+Does the provided context help solve the question and arrive at the provided correct answer? Output a score between 1 and 7 using the following rubric:
+
+- Output 1 if: Completely Irrelevant. The provided context does not address the question in any way. It provides no useful information or insights related to the question.
+- Output 2 if: Extremely Irrelevant. The provided context is largely off-topic and provides minimal or no helpful information. Its content is very distant from the question at hand.
+- Output 3 if: Somewhat Irrelevant. The provided context has a weak connection to the problem. While it may mention related concepts or offer minor insights, it does not contribute meaningfully to solving the question.
+- Output 4 if: Neutral. The provided context contains some relevant information, but it doesn’t directly help in solving the question. It may provide background context or partial information that needs further clarification.
+- Output 5 if: Somewhat Relevant. The provided context contains useful information, but only part of it is directly related to the question. It helps in understanding some aspects of the question, but further details or additional resources are needed to fully address the question.
+- Output 6 if: Very Relevant. The provided context is highly relevant and addresses most aspects of the question. It provides clear and actionable information, though there may still be minor gaps or missing details.
+- Output 7 if: Completely Relevant. The provided context is entirely relevant and offers thorough, accurate, and comprehensive information that directly solves the question. It covers all aspects necessary to fully address the question with precision.
+
+After outputting the score, provide a short reason for the decision, citing specific chunks of text from the context if applicable. Output the score and reason as a JSON object.

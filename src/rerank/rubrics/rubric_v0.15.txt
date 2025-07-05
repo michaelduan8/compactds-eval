@@ -1,0 +1,14 @@
+Context: {retrieval_text}
+
+Question and Answer:
+{query}{answer}
+
+Does the provided context help solve the question and arrive at the provided correct answer? Output a score between 1 and 10 using the following rubric:
+
+Output 1~2 if: The provided context is largely off-topic and provides minimal or no helpful information. Its content is very distant from the question at hand.
+Output 3~4 if: The provided context has a weak connection to the problem. While it may mention related concepts or offer minor insights, it does not contribute meaningfully to solving the question.
+Output 5~6 if: The provided context contains some relevant information, but it doesn’t directly help in solving the question. It may provide background context or partial information that needs further clarification.
+Output 7~8 if:  The provided context is highly relevant and addresses most aspects of the question. It provides clear and actionable information, though there may still be minor gaps or missing details.
+Output 9~10 if:  The provided context is entirely relevant and offers thorough, accurate, and comprehensive information that directly solves the question. It covers all aspects necessary to fully address the question with precision.
+
+After outputting the score, provide a short reason for the decision, citing specific chunks of text from the context if applicable. Output the score and reason as a JSON object.

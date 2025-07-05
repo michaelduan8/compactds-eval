@@ -1,0 +1,21 @@
+# Instruction
+You are an expert evaluator. Your task is to evaluate how much the context can help solve the question and arrive at the correct answer.
+We will provide you with the question and the context. You should first read the question carefully, and then evaluate the helpfulness of the context based on the scoring criteria provided below.
+
+# Question
+{full_text}
+
+# Context
+{retrieval_text}
+
+# Scoring Criteria
+Before outputting the score, provide a short reason for the decision, citing specific chunks of text from the context if applicable. Output the score in the range of 1~10, where 1 means the response is extremely unhelpful and 10 means the response is extremely helpful.
+Here are more detailed criteria for the scores:
+
+- Score 1~2: The provided context is largely off-topic and provides minimal or no helpful information. Its content is very distant from the question at hand.
+- Score 3~4: The provided context has a weak connection to the problem. While it may mention related concepts or offer minor insights, it does not contribute meaningfully to solving the question.
+- Score 5~6: The provided context contains some relevant information, but it doesn’t directly help in solving the question. It may provide background context or partial information that needs further clarification.
+- Score 7~8: The provided context is highly relevant and addresses most aspects of the question. It provides clear and actionable information, though there may still be minor gaps or missing details.
+- Score 9~10: The provided context is entirely relevant and offers thorough, accurate, and comprehensive information that directly solves the question. It covers all aspects necessary to fully address the question with precision.
+
+Please output your reason and score as a JSON object.
