@@ -106,8 +106,8 @@ _parser.add_argument(
 _parser.add_argument(
     "--retrieval_results_path",
     type=str,
-    help="Path to attack config file", 
-    default="s3://ai2-llm/pretraining-data/sources/ds-olmo-data/oracle_retrieval/mmlu/out/full_subsampled_1_1000_dedup_merged_simple_qa_queries_top1000.jsonl",
+    help="Path to attack config file",
+    default=None
 )
 
 _parser.add_argument(
