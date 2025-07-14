@@ -22,7 +22,7 @@ Create a conda environment and run:
 <!-- TODO: need to create a req.txt file -->
 ```
 pip install -e olmes
-pip install torch transformers datasets pipeline smart_open pyserini vllm==0.8.4 pydantic simple_parsing texttable
+pip install torch transformers datasets pipeline smart_open pyserini vllm==0.8.4 pydantic simple_parsing texttable huggingface_hub
 ```
 
 Export your HF access token (for gated HF models)
@@ -69,17 +69,17 @@ If you run another model/method, save it in the same parent directory but name i
 
 
 ### Running a Model with RAG
-Now, let's run the model with retrieval. Our system consists of three steps: Dense retrieval -> (Optional) Reranking -> Generation (eval). Retrieval results are prepended in-context before generation. This repo doesn't include the code for local dense retrieval; instead, retrieval results will be provided in the form of JSONL files, with each line containing retrieved contexts for a specific query. To download example retrieval files, use the following command.
+Now, let's run the model with retrieval. Our system consists of three steps: Dense retrieval -> (Optional) Reranking -> Generation (eval). Retrieval results are prepended in-context before generation. This repo doesn't include the code for local dense retrieval; instead, retrieval results will be provided in the form of JSONL files, with each line containing retrieved contexts for a specific query. To download example retrieval files, use the following script.
 ```bash
-aws s3 cp s3://ai2-llm/pretraining-data/sources/ds-olmo-data/ours_v3_retrieval datastores --recursive 
+PYTHONPATH=. python scripts/download_hf_dataset.py --dataset_name alrope/CompactDS-102GB-retrieval-results --output_path datastore/
 ```
-It should save a file `datastore/single_v3.jsonl`. (It will also download per-benchmark retrieval result files, such as `datastore/mmlu_pro:mc::retrieval_q_retrieved_results.jsonl` which you can also use)
+It should save a collection of per-benchmark retrieval results files, such as `datastore/mmlu_pro_exact_search_results.jsonl`.
 
 Now, let's run generation with the MMLU Pro retrieval results.
 ```bash
 python olmes/oe_eval/run_eval.py \ 
 	--task mmlu_pro:mc::retrieval \
-	--retrieval_results_path datastore/single_v3.jsonl \ 
+	--retrieval_results_path datastore/mmlu_pro_exact_search_results.jsonl \ 
 	--model meta-llama/Llama-3.1-8B-Instruct \ 
 	--retrieval_config configs/eval/offline_retrieval.json \
 	--matching_key id \
@@ -114,7 +114,7 @@ The following is an example of using the similarity score between embeddings of 
 ```
 python scripts/rerank.py \
 	--task_name mmlu_pro:mc::retrieval \
-	--retrieval_results datastore/single_v3.jsonl \
+	--retrieval_results datastore/mmlu_pro_exact_search_results.jsonl \
 	--output_path reranked_outputs/mmlu_pro/single_v3_grit_reranked_k_100.jsonl \
 	--method embedding_rerank \
 	--rerank_config configs/rerank/grit_embed_rerank_no_chunk.json \
@@ -154,7 +154,7 @@ We also support reranking using rubric scoring via LLM-as-judge. Use the followi
 ```bash
 python scripts/rerank.py \
 	--task_name mmlu_pro:mc::retrieval \
-	--retrieval_results datastore/single_v3.jsonl \
+	--retrieval_results datastore/mmlu_pro_exact_search_results.jsonl \
 	--output_path reranked_outputs/mmlu_pro/single_v3_reranked_k_100.jsonl \
 	--method rubric_annotate \
 	--rerank_config configs/rerank/mmlu_rubric_annotation_llama_3.1_0.4.json \
@@ -192,7 +192,7 @@ To perform oracle reranking:
 ```
 python scripts/rerank.py \ 
     --task_name mmlu_pro:mc::retrieval \
-	--retrieval_results datastore/single_v3.jsonl \
+	--retrieval_results datastore/mmlu_pro_exact_search_results.jsonl \
 	--output_path reranked_outputs/mmlu_pro/single_v3_oracle_reranked_k_100.jsonl \
     --method oracle_rerank \ 
 	--rerank_config configs/rerank/olmes_oracle_rerank.json \ 
