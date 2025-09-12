@@ -107,7 +107,7 @@ _parser.add_argument(
     "--retrieval_results_path",
     type=str,
     help="Path to attack config file",
-    default=None
+    default=""
 )
 
 _parser.add_argument(
@@ -185,6 +185,10 @@ _parser.add_argument(
 )
 
 _parser.add_argument(
+    "--no_thinking", action="store_true", help="Disable thinking when applicable"
+)
+
+_parser.add_argument(
     "--task",
     type=str,
     nargs="+",
@@ -250,8 +254,9 @@ _parser.add_argument(
 )
 
 
-def convert_chat_instance(model, ins, chat_template=None):
+def convert_chat_instance(model, ins, chat_template=None, no_thinking=False):
     if not isinstance(ins.request.context, str):
+        print("converting")
         if chat_template and chat_template not in CHAT_TEMPLATES:
             raise ValueError("Chat template {chat_template} not recognized!")
         elif chat_template is None and model.tokenizer.chat_template is None:
@@ -262,9 +267,16 @@ def convert_chat_instance(model, ins, chat_template=None):
             # We only use templates that don't rely on tokenizer
             context = CHAT_TEMPLATES[chat_template](messages, tokenizer=None)
         else:
-            context = model.tokenizer.apply_chat_template(
-                messages, tokenize=False, add_generation_prompt=True
-            )
+            if no_thinking:
+                print("no think!")
+                context = model.tokenizer.apply_chat_template(
+                    messages, tokenize=False, add_generation_prompt=True, enable_thinking=False
+                )
+                print(context)
+            else:
+                context = model.tokenizer.apply_chat_template(
+                    messages, tokenize=False, add_generation_prompt=True
+                )
         ins.request.context = context + assistant_prefix
         if not assistant_prefix and hasattr(ins.request, "continuation"):
             # Strip leading space if no assistant prefix
@@ -363,6 +375,8 @@ def process_eval_args(args_dict: dict) -> dict:
     if model_config.get("chat_model"):
         # Default to use chat format if chat_model is True
         task_config_shared["use_chat_format"] = True
+
+    task_config_shared["no_thinking"] = args_dict.pop("no_thinking")
     
     tasks = args_dict.pop("task")
     # Borrowed from launch.py
@@ -738,7 +752,7 @@ def run_eval(args_dict: dict):
             # Convert chat requests to model-specific input strings:
             if task_config.get("use_chat_format") and model_config["model_type"] != "litellm":
                 for ins in task_instances:
-                    convert_chat_instance(eval_model, ins, model_config.get("chat_template"))
+                    convert_chat_instance(eval_model, ins, model_config.get("chat_template"), task_config.get("no_thinking"))
             # Log requests associated with first instance
             first_requests = eval_requests_raw[0].copy()
             del first_requests["request"]

@@ -1315,10 +1315,18 @@ TASK_CONFIGS.update(
                     "template": "{{problem}}\n\nPresent the answer in LaTex format: \\boxed{Your answer}",
                 },
                 "generation_kwargs": {
-                    "max_gen_toks": 16384,  # super long generation allowed
-                    "temperature": 0.0,
-                    "do_sample": False,
+                    #"max_gen_toks": 16384,  # super long generation allowed
+                    #"temperature": 0.0,
+                    #"do_sample": False,
+                    #"truncate_context": False,  # don't truncate prompt for models with small context size
+                    #"stop_sequences": [],  # we rely on the chat format to provide the stop sequence
+                    "max_gen_toks": 32768, # For qwq from search-o1 
                     "truncate_context": False,  # don't truncate prompt for models with small context size
+                    "temperature": 0.7,
+                    "top_p": 0.8,
+                    "top_k": 20,
+                    "repetition_penalty": 1.05,
+                    "do_sample": True,
                     "stop_sequences": [],  # we rely on the chat format to provide the stop sequence
                 },
             }

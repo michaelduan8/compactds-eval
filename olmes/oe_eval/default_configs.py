@@ -43,6 +43,7 @@ TASK_DEFAULTS = {
     "dataset_path": None,
     "dataset_name": None,
     "use_chat_format": None,
+    "no_thinking": False,
     "version": None,
     "chat_overrides": None,
     "revision": None,
