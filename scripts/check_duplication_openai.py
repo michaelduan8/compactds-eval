@@ -17,7 +17,6 @@ PRICE_FACTOR = 5
 NUM = -1
 TOP_K = 10
 MAX_CONCURRENT_REQUESTS = 20
-semaphore = asyncio.Semaphore(MAX_CONCURRENT_REQUESTS)
 
 
 def postprocess(question, context, response):
@@ -46,7 +45,7 @@ def postprocess(question, context, response):
         }
     
 @backoff.on_exception(backoff.expo, (openai.RateLimitError, openai.APIError, openai.Timeout, openai.APIConnectionError))
-async def generate(client, prompt, model, temperature, max_tokens):
+async def generate(client, prompt, model, semaphore, temperature, max_tokens):
     async with semaphore:
         response = await client.chat.completions.create(
             model=model,
@@ -59,7 +58,8 @@ async def generate(client, prompt, model, temperature, max_tokens):
 
 
 async def batch_generate(client, queries, model, qc_pairs, temperature=0, max_tokens=None):
-    raw_outputs = await tqdm_asyncio.gather(*[generate(client, query, model, temperature=temperature, max_tokens=max_tokens) for query in queries])
+    semaphore = asyncio.Semaphore(MAX_CONCURRENT_REQUESTS)
+    raw_outputs = await tqdm_asyncio.gather(*[generate(client, query, model, semaphore, temperature=temperature, max_tokens=max_tokens) for query in queries])
     outputs = [postprocess(question, context, output) for (question, context), output in zip(qc_pairs, raw_outputs)]
 
     return outputs
