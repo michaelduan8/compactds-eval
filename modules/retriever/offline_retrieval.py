@@ -78,8 +78,10 @@ class OfflineRetrieval(object):
                 docs = [doc for doc in docs if doc["retrieval score"] >= self.threshold]
                 query_to_docs[q] = docs
 
-        for query in query_to_docs:
-            query_to_docs[query], _ = self._resolve_sort(query_to_docs[query], self.sort_key)
+        if self.sort_key:
+            assert False
+            for query in query_to_docs:
+                query_to_docs[query], _ = self._resolve_sort(query_to_docs[query], self.sort_key)
         
         for retrieval_results_path in retrieval_results_paths[1:]:
             another_query_to_docs = self._load_query_to_doc(retrieval_results_path)
@@ -91,7 +93,10 @@ class OfflineRetrieval(object):
                 else:
                     existing_query_to_docs = []
 
-                query_to_docs[query], _ = self._resolve_sort(existing_query_to_docs + another_query_to_docs[query], self.sort_key)
+                if self.sort_key:
+                    query_to_docs[query], _ = self._resolve_sort(existing_query_to_docs + another_query_to_docs[query], self.sort_key)
+                else:
+                    query_to_docs[query] = existing_query_to_docs + another_query_to_docs[query]
 
         return query_to_docs
 
@@ -114,6 +119,7 @@ class OfflineRetrieval(object):
                         r["source"] == src for src in self.sources_to_keep])]
                 
                 if self.presort_key:
+                    assert False
                     top_results, num = self._resolve_sort(top_results, self.presort_key)
                     if num and num < self.rerank_k and self.sources_to_filter is None and self.sources_to_keep is None:
                         logger.warning(f"Not enough docs for query {query} after sorting by {self.presort_key}")
