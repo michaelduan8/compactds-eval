@@ -38,7 +38,7 @@ class AIME2025(Task):
         "dataset_path": "MathArena/aime_2025",
         "native_id_field": "index",
         "primary_metric": "exact_match_flex",
-        "split": "train",
+        "split": "test",
         "generation_kwargs": {
             "max_gen_toks": 4096,
             "temperature": 0.0,
@@ -98,7 +98,7 @@ class AIME2025(Task):
             "problem": doc["problem"],
             "query": query,
             "year": "2025",
-            "answer": doc["answer"].lstrip("0"),
+            "answer": str(doc["answer"])
         }
         out_doc = apply_prompt_template(
             out_doc,
@@ -116,7 +116,7 @@ class AIME2025(Task):
     def construct_requests(
         self, doc: dict, ctx: Union[str, list, dict], doc_id: int
     ) -> List[RequestInstance]:
-        doc.update({"choices": [doc["solution"]]})  # for perplexity eval
+        # doc.update({"choices": [doc["solution"]]})  # for perplexity eval
         return self.construct_basic_generation_requests(doc, ctx, doc_id, label=doc["answer"])
 
     def extract_answers(self, results):
