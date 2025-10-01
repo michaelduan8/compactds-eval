@@ -4,6 +4,7 @@ from oe_eval.tasks.base_task import Task
 
 from . import (
     aime,
+    aime_2025,
     alpaca_eval,
     arc,
     boolq,
@@ -49,6 +50,7 @@ from .zero_scrolls import create_core_zero_scrolls_tasks
 TASK_REGISTRY: Dict[str, Type[Task]] = {
     **create_core_agi_eval_tasks(),
     "aime": aime.AIME,
+    "aime_2025": aime_2025.AIME2025,
     "alpaca_eval": alpaca_eval.AlpacaEval,
     "arc_challenge": arc.ARCChallenge,
     "arc_challenge:mc": arc.ARCChallengeMC,
