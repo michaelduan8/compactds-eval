@@ -1357,7 +1357,7 @@ TASK_CONFIGS.update(
         },
         "aime_2025::retrieval": {
             "task_name": "aime_2025",
-            "split": "train",
+            "split": "test",
             "use_chat_format": True,
             "num_shots": 0,
             "chat_overrides": {
