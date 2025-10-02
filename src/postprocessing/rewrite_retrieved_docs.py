@@ -9,8 +9,9 @@ from vllm import LLM, SamplingParams
 
 
 def _prepare_doc(doc, trace_key, mode="simple"):
-    print(doc.keys())
-    retrieval_text = doc[trace_key]
+    assert len(doc["ctxs"]) == 1, "Only support one retrieved doc for now"
+    ctx = doc["ctxs"][0]
+    retrieval_text = ctx[trace_key]
     question = retrieval_text.split("Reasoning Snippet:")[0].split("Question:")[1].strip()
     reasoning_snippet = retrieval_text.split("Reasoning Snippet:")[1].split("Answer:")[0].strip()
     answer = retrieval_text.split("Answer:")[1].strip()
