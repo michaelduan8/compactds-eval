@@ -9,20 +9,21 @@ from vllm import LLM, SamplingParams
 
 
 def _prepare_doc(doc, trace_key, mode="simple"):
-    print(doc.keys())
-    retrieval_text = doc[trace_key]
+    assert len(doc["ctxs"]) == 1, "Only support one retrieved doc for now"
+    ctx = doc["ctxs"][0]
+    retrieval_text = ctx[trace_key]
     question = retrieval_text.split("Reasoning Snippet:")[0].split("Question:")[1].strip()
     reasoning_snippet = retrieval_text.split("Reasoning Snippet:")[1].split("Answer:")[0].strip()
     answer = retrieval_text.split("Answer:")[1].strip()
  
     if mode == "simple":
         return [
-            { "role": "user", "content": f'Here is a question with an accompanying reasoning trace and answer.\n\nQuestion: {question}\n\nReasoning Trace: {reasoning_snippet}\n\nAnswer: {answer}\n\nPlease rewrite the reasoning trace. Only output "New Trace:" followed by the rewritten reasoning trace.' }
+            { "role": "user", "content": f'Here is a question with an accompanying reasoning trace and answer.\n\nQuestion: {question}\n\nAnswer: {answer}\n\nReasoning Trace: {reasoning_snippet}\n\nPlease rewrite the reasoning trace. Only output "New Trace:" followed by the rewritten reasoning trace.' }
         ]
     
     if mode == "cot":
         return [
-            { "role": "user", "content": f'Here is a question with an accompanying reasoning trace and answer.\n\nQuestion: {question}\n\nReasoning Trace: {reasoning_snippet}\n\nAnswer: {answer}\n\nPlease rewrite the reasoning trace to be more clear and concise while ensuring that the answer remains the same. The rewritten reasoning trace should be easy to understand and follow. Think about how you will rewrite the trace to make it more clear and concise, then answer with "New Trace:" followed by the rewritten reasoning trace.' }
+            { "role": "user", "content": f'Here is a question with an accompanying reasoning trace and answer.\n\nQuestion: {question}\n\nAnswer: {answer}\n\nReasoning Trace: {reasoning_snippet}\n\nPlease rewrite the reasoning trace to be more clear and concise while ensuring that the answer remains the same. The rewritten reasoning trace should be easy to understand and follow. Think about how you will rewrite the trace to make each necessary reasoning step more clear and concise, then answer with "New Trace:" followed by the rewritten reasoning trace.' }
         ]
     
 def prepare(retrieval_results_path, trace_key, mode):
@@ -50,7 +51,7 @@ def rewrite(requests, model):
         requests,
         tokenize=False,
         add_generation_prompt=True,
-        enable_thinking=False
+        enable_thinking=True
     )
     print(requests[0])
 
