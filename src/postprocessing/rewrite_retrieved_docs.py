@@ -51,6 +51,7 @@ def rewrite(requests, model):
         add_generation_prompt=True,
         enable_thinking=False
     )
+    print(requests[0])
 
     sampling_params = SamplingParams(temperature=0.7, 
                                      top_p=0.8, 
