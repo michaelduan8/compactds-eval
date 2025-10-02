@@ -52,10 +52,11 @@ def rewrite(requests, model):
         enable_thinking=False
     )
 
-    sampling_params = SamplingParams(temperature=0.6, 
-                                     top_p=0.95, 
+    sampling_params = SamplingParams(temperature=0.7, 
+                                     top_p=0.8, 
                                      top_k=20, 
                                      max_tokens=32768)
+    
 
     outputs = llm.generate(requests, sampling_params)
 
