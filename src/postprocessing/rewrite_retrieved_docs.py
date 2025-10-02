@@ -81,7 +81,14 @@ def main(args):
 
     # Print average response length
     resp_lens = [len(r["output"][0]) for r in rewritten_traces]
+
+    for r in rewritten_traces:
+        assert "New Trace:" in r["output"][0], f"Output does not contain 'New Trace:': {r['output'][0]}"
+
+    summ_only_resp_lens = [len(r["output"][0].split("New Trace:")[-1].strip()) for r in rewritten_traces]
     print(f"Average response length: {sum(resp_lens) / len(resp_lens)}")
+    print(f"Average summary-only response length: {sum(summ_only_resp_lens) / len(summ_only_resp_lens)}")
+
 
     new_data = []
     for doc, rewritten_trace in zip(data, rewritten_traces):
