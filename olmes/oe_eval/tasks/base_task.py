@@ -461,7 +461,33 @@ class Task(abc.ABC):
             messages = []
             if system_prompt:
                 messages.append({"role": "system", "content": system_prompt})
-            if num_fewshot == 0:
+            if "Reasoning Snippet:" in retrieval_text:
+                question = retrieval_text.split("Reasoning Snippet:")[0].split("Question:")[1].strip()
+                # reasoning_snippet = f"\n<think>\n{retrieval_text.split("Reasoning Snippet:")[1].strip()}\n</think>\n\n"
+                reasoning_snippet = retrieval_text.split("Reasoning Snippet:")[1].split("Answer:")[0].strip()
+                answer = retrieval_text.split("Answer:")[1].strip()
+
+                # reasoning_snippet = f"{reasoning_snippet}\n\n{answer}"
+                
+                # reasoning_snippet = f"\n<think>\n{reasoning_snippet}\n</think>\n\n{answer}"
+                # answer = f"\n<think>\n\n</think>\n\n{answer}"
+
+                msg = description + question
+                if assistant_prefix:
+                    msg = re.sub("\\s*" + re.escape(assistant_prefix) + "\\s*$", "", msg)
+                messages.append(
+                    {"role": "user", "content": msg + final_description}
+                )  # add final_description at end of every user turn for examples
+                msg = concat_with_space(assistant_prefix, reasoning_snippet)
+                # msg = concat_with_space(assistant_prefix, answer)
+                messages.append({"role": "assistant", "content": msg})
+                msg = self.doc_to_text(doc)
+                if assistant_prefix:
+                    msg = re.sub("\\s*" + re.escape(assistant_prefix) + "\\s*$", "", msg)
+                messages.append(
+                    {"role": "user", "content": msg + final_description}
+                )  # add final_description at end of every user turn for actual qns
+            elif num_fewshot == 0:
                 messages.append(
                     {
                         "role": "user",

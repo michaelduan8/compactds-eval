@@ -1355,6 +1355,30 @@ TASK_CONFIGS.update(
                 "regimes": ["zs_cot"],
             },
         },
+        "aime_2025::retrieval": {
+            "task_name": "aime_2025",
+            "split": "test",
+            "use_chat_format": True,
+            "num_shots": 0,
+            "chat_overrides": {
+                "context_kwargs": {
+                    "description": None,
+                    "assistant_prefix": None,
+                    "fewshot_as_multiturn": False,
+                    "template": "{{problem}}\n\nPresent the answer in LaTex format: \\boxed{Your answer}",
+                },
+                "generation_kwargs": {
+                    "max_gen_toks": 32768, # For qwq from search-o1 
+                    "truncate_context": False,  # don't truncate prompt for models with small context size
+                    "temperature": 0.7,
+                    "top_p": 0.8,
+                    "top_k": 20,
+                    "repetition_penalty": 1.05,
+                    "do_sample": True,
+                    "stop_sequences": [],  # we rely on the chat format to provide the stop sequence
+                },
+            }
+        },
         "medmcqa:rc::none": {
             "task_name": "medmcqa",
             "split": "test",
