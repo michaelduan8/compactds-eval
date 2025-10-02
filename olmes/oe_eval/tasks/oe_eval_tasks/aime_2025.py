@@ -111,7 +111,7 @@ class AIME2025(Task):
         return doc["query"]
 
     def doc_to_target(self, doc):
-        return " " + doc["solution"]
+        return " " + doc["answer"]
 
     def construct_requests(
         self, doc: dict, ctx: Union[str, list, dict], doc_id: int
