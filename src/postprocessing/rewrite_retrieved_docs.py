@@ -18,12 +18,12 @@ def _prepare_doc(doc, trace_key, mode="simple"):
  
     if mode == "simple":
         return [
-            { "role": "user", "content": f'Here is a question with an accompanying reasoning trace and answer.\n\nQuestion: {question}\n\nAnswer: {answer}\n\nReasoning Trace: {reasoning_snippet}\n\nPlease rewrite the reasoning trace. Only output "New Trace:" followed by the rewritten reasoning trace.' }
+            { "role": "user", "content": f'Here is a question with an accompanying reasoning trace.\n\nQuestion: {question}\n\nReasoning Trace: {reasoning_snippet}\n\nPlease rewrite the reasoning trace. Only output "New Trace:" followed by the rewritten reasoning trace.' }
         ]
     
     if mode == "cot":
         return [
-            { "role": "user", "content": f'Here is a question with an accompanying reasoning trace and answer.\n\nQuestion: {question}\n\nAnswer: {answer}\n\nReasoning Trace: {reasoning_snippet}\n\nPlease rewrite the reasoning trace to be more clear and concise while ensuring that the answer remains the same. The rewritten reasoning trace should be easy to understand and follow. Think about how you will rewrite the trace to make each necessary reasoning step more clear and concise, then answer with "New Trace:" followed by the rewritten reasoning trace.' }
+            { "role": "user", "content": f'Here is a question with an accompanying reasoning trace.\n\nQuestion: {question}\n\nReasoning Trace: {reasoning_snippet}\n\nPlease rewrite the reasoning trace to be more clear and concise while ensuring that the answer remains the same. The rewritten reasoning trace should be easy to understand and follow. Think about how you will rewrite the trace to make each necessary reasoning step more clear and concise, then finsih your response with "New Trace:" followed by the rewritten reasoning trace.' }
         ]
     
 def prepare(retrieval_results_path, trace_key, mode):
