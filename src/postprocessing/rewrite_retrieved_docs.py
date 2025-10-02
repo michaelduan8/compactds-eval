@@ -44,10 +44,12 @@ def rewrite(requests, model):
                             "factor": 2.0,
                             "original_max_position_embeddings": 32768})
     
+    # TODO: not sure what happens with models without thinking mode
     requests = tokenizer.apply_chat_template(
         requests,
         tokenize=False,
-        add_generation_prompt=True
+        add_generation_prompt=True,
+        enable_thinking=False
     )
 
     sampling_params = SamplingParams(temperature=0.6, 
