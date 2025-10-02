@@ -99,8 +99,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--trace_key",
         type=str,
-        required=True,
-        default="retrieval_text",
+        default="retrieval text",
         help="Key to access the rewritten question",
     )
     parser.add_argument(
