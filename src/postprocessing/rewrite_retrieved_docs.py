@@ -80,7 +80,7 @@ def main(args):
     rewritten_traces = rewrite(requests, model)
 
     # Print average response length
-    resp_lens = [len(r["output"]) for r in rewritten_traces]
+    resp_lens = [len(r["output"][0]) for r in rewritten_traces]
     print(f"Average response length: {sum(resp_lens) / len(resp_lens)}")
 
     new_data = []
